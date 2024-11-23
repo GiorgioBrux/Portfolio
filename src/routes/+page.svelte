@@ -105,7 +105,9 @@
 			</Button>
 		</div>
 
-		<Card class="mb-12 bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-xl">
+		<Card class="mb-12 bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-xl {isDarkMode
+			? 'border-gray-700 bg-gray-800'
+			: 'border-gray-200 bg-white'}">
 			<CardHeader>
 				<div class="flex items-center space-x-4">
 					<div class="text-5xl">👋</div>
