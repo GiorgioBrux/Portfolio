@@ -1,38 +1,27 @@
-# sv
+# My Portfolio Website
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+A modern, responsive portfolio website built with SvelteKit, TailwindCSS, and TypeScript. Features a dark mode toggle, interactive project cards, and particle effects.
 
-## Creating a project
+## 🌟 Features
 
-If you're seeing this, you've probably already done this step. Congrats!
+- **Dark/Light Mode**: Seamless theme switching with smooth transitions
+- **Interactive Project Cards**: Dynamic project showcases with hover effects
+- **Particle Effects**: Beautiful snow particle animation using tsParticles
+- **Responsive Design**: Mobile-first approach that looks great on all devices
+- **Modern Tech Stack**: Built with the latest web technologies
+- **Accessibility**: ARIA-compliant and keyboard navigable
 
-```bash
-# create a new project in the current directory
-npx sv create
+## 🚀 Tech Stack
 
-# create a new project in my-app
-npx sv create my-app
-```
+- [SvelteKit](https://kit.svelte.dev/) - Full-stack web framework
+- [TailwindCSS](https://tailwindcss.com/) - Utility-first CSS framework
+- [TypeScript](https://www.typescriptlang.org/) - Type-safe JavaScript
+- [Bits UI](https://www.bits-ui.com/) - Headless UI components
+- [tsParticles](https://particles.js.org/) - Particle animations
+- [Lucide Icons](https://lucide.dev/) - Beautiful icons
+- [Prettier](https://prettier.io/) - Code formatting
+- [ESLint](https://eslint.org/) - Code linting
 
-## Developing
+## 📝 License
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
-
-```bash
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
-
-## Building
-
-To create a production version of your app:
-
-```bash
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+MIT License - feel free to use this code for your own portfolio!
