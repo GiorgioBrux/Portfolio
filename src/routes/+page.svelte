@@ -2,10 +2,11 @@
 	import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '$lib/components/ui/card';
 	import { Button } from '$lib/components/ui/button';
 	import { Github, Star, Sun, Moon, MapPin, ExternalLink } from 'lucide-svelte';
-	import Particles, { particlesInit } from '@tsparticles/svelte';
-	import { onMount } from 'svelte';
-	import { loadSlim } from '@tsparticles/slim';
-
+	import NewsGridCard from '$lib/components/ui_custom/NewsGridCard.svelte';
+	import EuropaCard from '$lib/components/ui_custom/EuropaCard.svelte';
+	import PixelServersCard from '$lib/components/ui_custom/PixelServersCard.svelte';
+	import AsciiArtCard from '$lib/components/ui_custom/AsciiArtCard.svelte';
+	
 	let { data } = $props();
 
 	let personalInfo = $state({
@@ -20,6 +21,14 @@
 
 	let projects = $state([
 		{
+			title: 'PixelServers',
+			description: 'WIP Minecraft server hosting platform.',
+			productlink: 'https://pixel-servers.vercel.app/',
+			bgImage: '💻',
+			bgColor: 'from-purple-600 to-pink-600',
+			isPixelServers: true
+		},
+		{
 			title: 'NewsGrid',
 			description: "AI-powered news aggregator, alternative front-end for Kagi's Kite.",
 			link: 'https://github.com/GiorgioBrux/newsgrid',
@@ -28,6 +37,16 @@
 			stars: 0,
 			bgColor: 'from-emerald-600 to-emerald-800',
 			isNewsGrid: true
+		},
+		{
+			title: 'Europa',
+			description: "2D platformer game about a penguin exploring Jupiter's icy moon Europa.",
+			link: 'https://github.com/giorgiobrullo/europa',
+			productlink: 'https://europa.giorgiobrux.eu',
+			bgImage: '🐧',
+			stars: 0,
+			bgColor: 'from-blue-900 to-indigo-900',
+			isEuropa: true
 		},
 		{
 			title: 'Nitro Sniper',
@@ -57,15 +76,7 @@
 			bgColor: 'from-orange-600 to-orange-800',
 			isAsciiArt: true
 		},
-		{
-			title: 'Europa',
-			description: "2D platformer game about a penguin exploring Jupiter's icy moon Europa.",
-			link: 'https://github.com/giorgiobrullo/europa',
-			bgImage: '🐧',
-			stars: 0,
-			bgColor: 'from-blue-900 to-indigo-900',
-			isEuropa: true
-		}
+
 	]);
 
 	let isDarkMode = $state(false);
@@ -73,17 +84,6 @@
 	function toggleDarkMode() {
 		isDarkMode = !isDarkMode;
 	}
-
-	let ParticlesComponent = $state(null as typeof Particles | null);
-
-	onMount(async () => {
-		const module = await import('@tsparticles/svelte');
-		ParticlesComponent = module.default;
-	});
-
-	void particlesInit(async (engine) => {
-		await loadSlim(engine);
-	});
 </script>
 
 <div
@@ -176,97 +176,41 @@
 							<div>
 								<h3 class="text-2xl font-bold text-white">{project.title}</h3>
 								<p class="mt-2 text-sm text-gray-100">{project.description}</p>
-							</div>
-							<div class="flex items-center space-x-2">
-								<Star class="h-5 w-5 text-yellow-400" />
-								<span class="font-semibold text-yellow-400">{project.stars}</span>
-							</div>
+							</div>	
+							{#if project.stars}
+								<div class="flex items-center space-x-2">
+									<Star class="h-5 w-5 text-yellow-400" />
+									<span class="font-semibold text-yellow-400">{project.stars}</span>
+								</div>
+							{/if}
 						</div>
 
 						<div class="relative flex h-full w-full items-center justify-center overflow-hidden">
 							{#if project.isAsciiArt}
-								<pre
-									class="whitespace-pre text-center font-mono font-mono text-white">{project.bgImage}</pre>
-							{:else if project.isNewsGrid}
-								<div class="absolute inset-0 flex items-center justify-center">
-									<!-- Background Grid -->
-									<div class="absolute inset-0 grid grid-cols-8 grid-rows-8 gap-1 p-16 opacity-40">
-										{#each Array(64) as _, i}
-											<div
-												class="transform rounded-sm bg-white/20 transition-all duration-700 hover:bg-white/40"
-												style="animation: pulse {1 + (i % 3)}s ease-in-out infinite {i * 0.1}s"
-											></div>
-										{/each}
-									</div>
-
-									<!-- Center Content -->
-									<div class="relative z-10 flex flex-col items-center">
-										<div class="mb-2 text-8xl">{project.bgImage}</div>
-										<div class="grid grid-cols-4 gap-0.5 opacity-60">
-											{#each Array(8) as _}
-												<div class="h-0.5 animate-pulse bg-white/40"></div>
-											{/each}
-										</div>
-									</div>
-
-									<!-- Radial Gradient Overlay -->
-									<div
-										class="bg-gradient-radial absolute inset-0 from-transparent via-emerald-700/20 to-emerald-700/90"
-									></div>
-								</div>
-							{:else if project.isEuropa}
-								<div class="z-15 absolute inset-0 flex items-center justify-center overflow-hidden">
-									{#if ParticlesComponent}
-										<ParticlesComponent
-											id="snow-particles"
-											options={data.snowConfig}
-											class="absolute inset-0 h-full w-full p-16"
-										/>
-									{/if}
-
-									<!-- Cracks in the Ice Background -->
-									<div
-										class="absolute inset-0 grid grid-cols-12 grid-rows-12 gap-0.5 p-16 opacity-20"
-									>
-										{#each Array(144) as _, i}
-											<div
-												class="h-full w-full bg-white/10"
-												style="clip-path: polygon({Math.random() * 100}% 0, 100% {Math.random() *
-													100}%, {Math.random() * 100}% 100%, 0 {Math.random() * 100}%);"
-											></div>
-										{/each}
-									</div>
-
-									<!-- Center Content -->
-									<div class="relative z-10 flex flex-col items-center">
-										<div class="pixel-art mb-2 text-6xl">{project.bgImage}</div>
-										<!-- Icy Surface -->
-										<div class="relative w-48">
-											<div class="h-4 w-full rounded-sm bg-white/30 blur-sm"></div>
-											<div class="absolute top-0 h-2 w-full rounded-sm bg-white/40"></div>
-										</div>
-									</div>
-
-									<!-- Space/Ice Gradient -->
-									<div
-										class="bg-gradient-radial absolute inset-0 from-transparent via-blue-900/40 to-blue-900/95"
-									></div>
-								</div>
-							{:else}
-								<img src={project.bgImage} alt={project.title} />
-							{/if}
+							<AsciiArtCard {project} />
+						  {:else if project.isNewsGrid}
+							<NewsGridCard {project} />
+						  {:else if project.isEuropa}
+							<EuropaCard {project} {data} />
+						  {:else if project.isPixelServers}
+							<PixelServersCard {project} />
+						  {:else}
+							<img src={project.bgImage} alt={project.title} />
+						  {/if}
 						</div>
 
+						{#if project.link}
 						<Button
 							href={project.link}
 							target="_blank"
 							rel="noopener noreferrer"
-							variant="secondary"
-							size="icon"
-							class="absolute right-4 top-4 rounded-full opacity-0 transition-opacity duration-300 hover:bg-white hover:text-purple-600 group-hover:opacity-100"
-						>
-							<Github class="h-5 w-5" />
-						</Button>
+								variant="secondary"
+								size="icon"
+								class="absolute right-4 top-4 rounded-full opacity-0 transition-opacity duration-300 hover:bg-white hover:text-purple-600 group-hover:opacity-100"
+							>
+								<Github class="h-5 w-5" />
+							</Button>
+						{/if}
 						{#if project.productlink}
 							<Button
 								href={project.productlink}
@@ -274,7 +218,7 @@
 								rel="noopener noreferrer"
 								variant="secondary"
 								size="icon"
-								class="absolute right-16 top-4 rounded-full opacity-0 transition-opacity duration-300 hover:bg-white hover:text-purple-600 group-hover:opacity-100"
+								class="absolute {project.link ? 'right-16' : 'right-4'} top-4 rounded-full opacity-0 transition-opacity duration-300 hover:bg-white hover:text-purple-600 group-hover:opacity-100"
 							>
 								<ExternalLink class="h-5 w-5" />
 							</Button>
