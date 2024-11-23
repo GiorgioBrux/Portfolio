@@ -82,45 +82,44 @@
 
 	let isDarkMode = $state(false);
 
+	function toggleDarkMode() {
+		isDarkMode = !isDarkMode;
+		document.documentElement.classList.toggle('dark');
+	}
+
 	onMount(() => {
 		// Check system preference on mount
 		const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
 		isDarkMode = prefersDark;
+		document.documentElement.classList.toggle('dark', prefersDark);
 
 		// Listen for system preference changes
 		window.matchMedia('(prefers-color-scheme: dark)')
 			.addEventListener('change', (e) => {
 				isDarkMode = e.matches;
+				document.documentElement.classList.toggle('dark', e.matches);
 			});
 	});
-
-	function toggleDarkMode() {
-		isDarkMode = !isDarkMode;
-	}
 </script>
 
-<div
-	class="{isDarkMode
-		? 'bg-gradient-to-br from-gray-900 to-gray-800 text-white'
-		: 'bg-white text-gray-800'} min-h-screen transition-colors duration-300"
->
+<div class="{isDarkMode
+	? 'bg-gradient-to-br from-gray-900 to-gray-800 text-white'
+	: 'bg-white text-gray-800'} min-h-screen transition-colors duration-300">
 	<div class="container mx-auto max-w-6xl px-4 py-12">
 		<div class="mb-4 flex items-center justify-end gap-2">
 			{#if !isDarkMode}
 				<span class="text-sm font-medium italic">Flashbanged? -&gt;</span>
 			{/if}
-			<Button variant="outline" size="icon" onclick={toggleDarkMode} class="rounded-full">
+			<Button variant="outline" size="icon" onclick={toggleDarkMode} class="rounded-full hover:text-purple-600">
 				{#if isDarkMode}
-					<Sun class="h-5 w-5" />
+					<Sun class=" h-5 w-5" />
 				{:else}
-					<Moon class="h-5 w-5" />
+					<Moon class="h-5 w-5 " />
 				{/if}
 			</Button>
 		</div>
 
-		<Card class="mb-12 bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-xl {isDarkMode
-			? 'border-gray-700 bg-gray-800'
-			: 'border-gray-200 bg-white'}">
+		<Card class="mb-12 bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-xl {isDarkMode ? 'border-gray-700' : 'border-gray-200'}">
 			<CardHeader>
 				<div class="flex items-center space-x-4">
 					<div class="text-5xl">👋</div>
@@ -154,7 +153,7 @@
 				<Button
 					variant="secondary"
 					size="icon"
-					class="rounded-full hover:bg-white hover:text-purple-600"
+					class="rounded-full hover:text-purple-600"
 					href="https://github.com/GiorgioBrux"
 				>
 					<Github class="h-5 w-5" />
@@ -162,7 +161,7 @@
 				<Button
 					variant="secondary"
 					size="icon"
-					class="rounded-full hover:bg-white hover:text-purple-600"
+					class="rounded-full hover:text-purple-600"
 					href="https://giorgiobrux.bsky.social"
 				>
 					<svg
@@ -181,11 +180,7 @@
 
 		<div class="grid grid-cols-1 gap-8 md:grid-cols-2">
 			{#each projects as project}
-				<Card
-					class="group flex h-full flex-col overflow-hidden transition-all duration-300 hover:shadow-2xl {isDarkMode
-						? 'border-gray-700 bg-gray-800'
-						: 'border-gray-200 bg-white'}"
-				>
+				<Card class="group flex h-full flex-col overflow-hidden transition-all duration-300 hover:shadow-2xl {isDarkMode ? 'border-gray-700' : 'border-gray-200'}">
 					<div class="aspect-square w-full bg-gradient-to-br {project.bgColor} relative p-8">
 						<div class="absolute inset-0 flex flex-col justify-between p-6">
 							<div>
@@ -221,7 +216,7 @@
 							rel="noopener noreferrer"
 								variant="secondary"
 								size="icon"
-								class="absolute right-4 top-4 rounded-full opacity-0 transition-opacity duration-300 hover:bg-white hover:text-purple-600 group-hover:opacity-100"
+								class="absolute right-4 top-4 rounded-full opacity-0 transition-opacity duration-300 hover:text-purple-600 group-hover:opacity-100"
 							>
 								<Github class="h-5 w-5" />
 							</Button>
@@ -233,7 +228,7 @@
 								rel="noopener noreferrer"
 								variant="secondary"
 								size="icon"
-								class="absolute {project.link ? 'right-16' : 'right-4'} top-4 rounded-full opacity-0 transition-opacity duration-300 hover:bg-white hover:text-purple-600 group-hover:opacity-100"
+								class="absolute {project.link ? 'right-16' : 'right-4'} top-4 rounded-full opacity-0 transition-opacity duration-300 hover:text-purple-600 group-hover:opacity-100"
 							>
 								<ExternalLink class="h-5 w-5" />
 							</Button>
@@ -247,7 +242,7 @@
 				href="https://github.com/GiorgioBrux/portfolio"
 				target="_blank"
 				rel="noopener noreferrer"
-				class="inline-flex items-center gap-2 text-sm opacity-60 transition-opacity hover:opacity-100"
+				class="inline-flex items-center gap-2 text-sm opacity-60 transition-opacity hover:opacity-100 dark:text-white text-gray-800"
 			>
 				<Github class="h-4 w-4" />
 				View source code on GitHub
