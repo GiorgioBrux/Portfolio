@@ -6,7 +6,8 @@
 	import EuropaCard from '$lib/components/ui_custom/EuropaCard.svelte';
 	import PixelServersCard from '$lib/components/ui_custom/PixelServersCard.svelte';
 	import AsciiArtCard from '$lib/components/ui_custom/AsciiArtCard.svelte';
-	
+	import { onMount } from 'svelte';
+
 	let { data } = $props();
 
 	let personalInfo = $state({
@@ -81,6 +82,18 @@
 
 	let isDarkMode = $state(false);
 
+	onMount(() => {
+		// Check system preference on mount
+		const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+		isDarkMode = prefersDark;
+
+		// Listen for system preference changes
+		window.matchMedia('(prefers-color-scheme: dark)')
+			.addEventListener('change', (e) => {
+				isDarkMode = e.matches;
+			});
+	});
+
 	function toggleDarkMode() {
 		isDarkMode = !isDarkMode;
 	}
@@ -98,9 +111,9 @@
 			{/if}
 			<Button variant="outline" size="icon" onclick={toggleDarkMode} class="rounded-full">
 				{#if isDarkMode}
-					<Sun class="h-5 w-5 text-black" />
+					<Sun class="h-5 w-5" />
 				{:else}
-					<Moon class="h-5 w-5 text-black" />
+					<Moon class="h-5 w-5" />
 				{/if}
 			</Button>
 		</div>
