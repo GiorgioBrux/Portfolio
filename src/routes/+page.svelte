@@ -193,7 +193,7 @@
 						  {:else if project.isEuropa}
 							<EuropaCard {project} {data} />
 						  {:else if project.isPixelServers}
-							<PixelServersCard {project} />
+							<PixelServersCard />
 						  {:else}
 							<img src={project.bgImage} alt={project.title} />
 						  {/if}
