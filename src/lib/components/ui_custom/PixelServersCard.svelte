@@ -35,10 +35,10 @@
 
     function generateIsland() {
         const island = new THREE.Group();
-        // Use current hour as seed (changes every hour)
-        const hourlyTimestamp = Math.floor(Date.now() / (1000 * 60 * 60));
+        // Use current second as seed (changes every second)
+        const secondTimestamp = Math.floor(Date.now() / 1000);
         
-        const noise2D = createNoise2D(() => hourlyTimestamp);
+        const noise2D = createNoise2D(() => secondTimestamp);
         const SIZE = 12;
         
         // Generate blocks centered around (0,0,0)
@@ -52,7 +52,7 @@
                 
                 if (distanceFromCenter < SIZE/2) {
                     const height = Math.floor(
-                        (noise2D(x * 0.2 + hourlyTimestamp * 0.1, z * 0.2 + hourlyTimestamp * 0.1) + 1) * 3 + 
+                        (noise2D(x * 0.2 + secondTimestamp * 0.1, z * 0.2 + secondTimestamp * 0.1) + 1) * 3 + 
                         Math.max(0, (SIZE/2 - distanceFromCenter))
                     );
 
