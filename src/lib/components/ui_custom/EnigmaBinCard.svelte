@@ -21,16 +21,21 @@
     function initCanvas() {
         const dpr = window.devicePixelRatio || 1;
         const rect = canvas.getBoundingClientRect();
+        const padding = 48;
+        const iconSize = 48;
+        
+        canvas.style.width = '100%';
+        canvas.style.height = '100%';
         
         canvas.width = rect.width * dpr;
         canvas.height = rect.height * dpr;
         ctx.scale(dpr, dpr);
-        canvas.style.width = `${rect.width}px`;
-        canvas.style.height = `${rect.height}px`;
+        
+        const maxVerticalSpread = Math.min(30, rect.height * 0.15);
         
         drops = Array(100).fill(null).map(() => ({
-            x: rect.width * 0.2,
-            y: rect.height / 2 + (Math.random() * 80 - 40),
+            x: padding + iconSize,
+            y: rect.height / 2 + (Math.random() * maxVerticalSpread - maxVerticalSpread/2),
             char: chars[Math.floor(Math.random() * chars.length)],
             speed: 0.5 + Math.random() * 2,
             opacity: Math.random() * 0.7 + 0.3
@@ -39,15 +44,20 @@
 
     function draw() {
         const rect = canvas.getBoundingClientRect();
+        const padding = 48;
+        const iconSize = 48;
         ctx.clearRect(0, 0, rect.width, rect.height);
 
         // Draw glowing data stream between users
         const centerY = rect.height / 2;
+        const startX = padding + iconSize;
+        const endX = rect.width - padding - iconSize;
+        
         ctx.beginPath();
         ctx.strokeStyle = 'rgba(0, 255, 0, 0.3)';
         ctx.lineWidth = 2;
-        ctx.moveTo(rect.width * 0.2, centerY);
-        ctx.lineTo(rect.width * 0.8, centerY);
+        ctx.moveTo(startX, centerY);
+        ctx.lineTo(endX, centerY);
         ctx.stroke();
         
         ctx.shadowBlur = 15;
@@ -63,9 +73,10 @@
             ctx.fillText(drop.char, drop.x, drop.y);
 
             drop.x += drop.speed;
-            if (drop.x > rect.width * 0.8) {
-                drop.x = rect.width * 0.2;
-                drop.y = rect.height / 2 + (Math.random() * 80 - 40);
+            if (drop.x > endX) {
+                drop.x = startX;
+                const maxVerticalSpread = Math.min(30, canvas.height * 0.15);
+                drop.y = rect.height / 2 + (Math.random() * maxVerticalSpread - maxVerticalSpread/2);
                 drop.char = chars[Math.floor(Math.random() * chars.length)];
             }
         });
@@ -80,7 +91,9 @@
         draw();
 
         const resizeObserver = new ResizeObserver(() => {
+            cancelAnimationFrame(animationFrame);
             initCanvas();
+            draw();
         });
         resizeObserver.observe(canvas);
 
