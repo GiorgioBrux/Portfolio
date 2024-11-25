@@ -6,6 +6,7 @@
 	import EuropaCard from '$lib/components/ui_custom/EuropaCard.svelte';
 	import PixelServersCard from '$lib/components/ui_custom/PixelServersCard.svelte';
 	import AsciiArtCard from '$lib/components/ui_custom/AsciiArtCard.svelte';
+	import EnigmaBinCard from '$lib/components/ui_custom/EnigmaBinCard.svelte';
 	import { onMount } from 'svelte';
 
 	let { data } = $props();
@@ -28,6 +29,15 @@
 			bgImage: '💻',
 			bgColor: 'from-purple-600 to-pink-600',
 			isPixelServers: true
+		},
+		{
+			title: 'EnigmaBin',
+			description: "A secure pastebin alternative with end-to-end encryption.",
+			link: 'https://github.com/GiorgioBrux/enigmabin',
+			productlink: 'https://enigmabin.reizouko.eu',
+			bgImage: '🔒',
+			bgColor: 'from-blue-600 to-blue-800',
+			isEnigmaBin: true
 		},
 		{
 			title: 'NewsGrid',
@@ -196,17 +206,19 @@
 						</div>
 
 						<div class="relative flex h-full w-full items-center justify-center overflow-hidden">
-							{#if project.isAsciiArt}
-							<AsciiArtCard {project} />
-						  {:else if project.isNewsGrid}
-							<NewsGridCard {project} />
-						  {:else if project.isEuropa}
-							<EuropaCard {project} {data} />
-						  {:else if project.isPixelServers}
-							<PixelServersCard />
-						  {:else}
-							<img src={project.bgImage} alt={project.title} />
-						  {/if}
+							{#if project.isEnigmaBin}
+								<EnigmaBinCard />
+							{:else if project.isAsciiArt}
+								<AsciiArtCard {project} />
+							{:else if project.isNewsGrid}
+								<NewsGridCard {project} />
+							{:else if project.isEuropa}
+								<EuropaCard {project} {data} />
+							{:else if project.isPixelServers}
+								<PixelServersCard />
+							{:else}
+								<img src={project.bgImage} alt={project.title} />
+							{/if}
 						</div>
 
 						{#if project.link}

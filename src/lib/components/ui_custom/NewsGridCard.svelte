@@ -4,7 +4,7 @@
   
   <div class="absolute inset-0 flex items-center justify-center">
     <!-- Background Grid -->
-    <div class="absolute inset-0 grid grid-cols-8 grid-rows-8 gap-1 p-16 opacity-40">
+    <div class="absolute inset-0 grid aspect-square grid-cols-8 grid-rows-8 gap-1 p-16 opacity-40">
       {#each Array(64) as _, i}
         <div
           class="transform rounded-sm bg-white/20 transition-all duration-700 hover:bg-white/40"
